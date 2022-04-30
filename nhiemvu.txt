@@ -13,4 +13,4 @@
 - thêm sản phẩm mới (admin)
 - cập nhật lại các thông tin sản phẩm(admin)
 - Cập nhật lại thông tin user(admin / user)
-- Chỉnh sửa lại code
+- Cấu hình theo mô hình MVC
