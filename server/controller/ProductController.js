@@ -23,10 +23,10 @@ class ProductController {
   }
 
   // lấy ra tất cả sản phẩm của thương hiệu bất kỳ
-  async getProductByClassify(classify) {
+  async getProductByClassify(classify, check1 = false) {
     const check = await this.checkClassify(classify);
     if (!check) {
-      const data = await Product.find({ classify });
+      const data = !check1 ? await Product.find({ classify }).limit(3) : await Product.find({ classify });
       return {
         err: false,
         data,
@@ -39,11 +39,11 @@ class ProductController {
   }
 
   // lấy dữ liệu trang home
-  async getHome() {
+  async getHome(limit_product) {
     const arr = await Classify.find();
     const classifys = arr.map((item) => item.name);
     const promises = classifys.map((item) =>
-      this.getProductByClassify(classifys).limit(2)
+      this.getProductByClassify(item)
     );
     return Promise.all(promises);
   }

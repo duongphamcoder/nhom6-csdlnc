@@ -1,43 +1,52 @@
 import axioisClient from "../axios";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 import { useParams, Link } from "react-router-dom";
 
 export default function Children() {
   const { slug } = useParams();
+  const [list_product, setList_product] = useState();
 
   // gọi api để lấy dữ liệu cho việc render
-  // useEffect(() => {
-  //   axioisClient.get(`/san-pham/${slug}`).then((res) => {
-  //     console.log(res);
-  //   });
-  // }, [slug]);
+  useLayoutEffect(() => {
+    axioisClient.get(`/san-pham/${slug}`).then((res) => {
+      console.log(res);
+      setList_product(res);
+    });
+  }, [slug]);
   return (
     <>
-      <div id="list_product">
-        <div className="product_item">
-          <Link to="" className="items">
-            <div
-              className="image"
-              style={{
-                backgroundImage: `url('https://assets.website-files.com/5e853c3383474026e43f2c78/5e856e41c718420c18dd6751_patrick-hendry-eDgUyGu93Yw-unsplash.jpg')`,
-              }}
-            ></div>
-            <div className="product_information">
-              <div className="product_name">
-                <span>Tên sản phẩm</span>
-              </div>
-              <div className="product_price">
-                <span>1.000.000đ</span>
-              </div>
-            </div>
-            <div className="details_btn">
-              <span>Chi tiết</span>
-            </div>
-          </Link>
+      {!Boolean(list_product) ? (
+        <h1>Loading</h1>
+      ) : (
+        <div id="list_product">
+          <div className="product_item">
+            {list_product.data.map((item) => {
+              return (
+                <Link to="" className="items" key = {item._id} title={item.name}>
+                  <div
+                    className="image"
+                    style={{
+                      backgroundImage: `url('${item.image}')`,
+                    }}
+                  ></div>
+                  <div className="product_information">
+                    <div className="product_name">
+                      <span>{item.name}</span>
+                    </div>
+                    <div className="product_price">
+                      <span>{item.price}đ</span>
+                    </div>
+                  </div>
+                  <div className="details_btn">
+                    <span>Chi tiết</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
         </div>
-        <h1>{slug}</h1>
-      </div>
+      )}
     </>
   );
 }
