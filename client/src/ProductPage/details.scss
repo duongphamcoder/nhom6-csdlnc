@@ -1,0 +1,104 @@
+#details {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+  #detail_product-image {
+    --values: 400px;
+    width: var(--values);
+    height: var(--values);
+
+    & > img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  #details_info {
+    #details_info-name {
+      width: 350px;
+      height: 40px;
+      overflow: hidden;
+      span {
+        display: -webkit-box;
+        width: 100%;
+        height: 100%;
+        font-family: cursive;
+        font-size: 20px;
+        // font-weight: 600;
+        padding: 10px;
+        padding-left: 0;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    #details_info-price {
+      padding: 20px 0;
+      span {
+        color: red;
+        font-weight: 600;
+        font-size: 22px;
+      }
+    }
+    #details_info-amount {
+      display: flex;
+
+      #details_info-amount-item {
+        width: 120px;
+        height: 30px;
+        display: flex;
+        margin-left: 10px;
+        align-items: center;
+        border-radius: 1px solid #eeeeee;
+        user-select: none !important;
+        span {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 100%;
+          background-color: #eeeeee;
+          cursor: pointer;
+        }
+        input {
+          width: calc(100% - 60px);
+          height: 100%;
+          text-align: center;
+          flex: 1;
+          outline: none;
+          border: 1px solid #eeeeee;
+        }
+      }
+    }
+
+    #details_info-description {
+      max-width: 500px;
+      padding: 15px 0;
+      overflow: hidden;
+      span {
+        padding: 0 20px;
+      }
+    }
+
+    #details_info-btn {
+      padding: 30px 0;
+      text-align: center;
+      span {
+        background-color: #5ec9ff;
+        padding: 15px 20px;
+        color: #eeeeee;
+        border-radius: 8px;
+        font-size: 18px;
+        display: inline-flex;
+        align-items: center;
+        cursor: pointer;
+
+        & > ion-icon {
+          font-size: 25px;
+          padding: 0 10px;
+        }
+      }
+    }
+  }
+}

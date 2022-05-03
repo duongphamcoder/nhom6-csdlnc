@@ -23,7 +23,12 @@ export default function Children() {
           <div className="product_item">
             {list_product.data.map((item) => {
               return (
-                <Link to="" className="items" key = {item._id} title={item.name}>
+                <Link
+                  to={`details?id=${item._id}`}
+                  className="items"
+                  key={item._id}
+                  title={item.name}
+                >
                   <div
                     className="image"
                     style={{

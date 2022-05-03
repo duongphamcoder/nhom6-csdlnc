@@ -3,10 +3,13 @@ import { Link } from "react-router-dom";
 import styles from "./index.module.scss";
 
 import axioisClient from "../axios";
-import { useLayoutEffect, useState } from "react";
+import { useContext, useLayoutEffect, useState } from "react";
+
+import {HandleContext} from "../index"
 
 export default function FeaturedProduct() {
   const [list_product, setList_Product] = useState([]);
+  const {handle_add_to_cart} = useContext(HandleContext)
 
   // lấy sản phẩm nổi bật của sản phẩm
   useLayoutEffect(() => {
@@ -20,7 +23,7 @@ export default function FeaturedProduct() {
     <>
       <div id={styles.content}>
         <div id={styles.header_title}>
-          <h1>Sản phẩm nổi bật</h1>
+          <h1 onClick={handle_add_to_cart}>Sản phẩm nổi bật</h1>
         </div>
         <div id={styles.list_product}>
           {list_product.map((item, index) => {

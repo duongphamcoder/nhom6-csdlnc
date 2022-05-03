@@ -28,7 +28,9 @@ class CartController {
 
   // chuyển đổi tiền từ số sang chuỗi
   convert_money(money, amount) {
-    const parser_price_cur = parseInt(money.replaceAll(".", ""));
+    let parser_price_cur = money.replaceAll(".", "");
+    parser_price_cur = money.replaceAll(",", "");
+    parser_price_cur = +parser_price_cur;
 
     const new_price = amount * parser_price_cur;
     const prev_convert = `${new_price}`;
@@ -97,13 +99,18 @@ class CartController {
         });
 
         cart.save();
+        /* 
+          status = 0 => thêm mới
+          status = 1 => cập nhật giá tiền và số lượng
+          */
+        return { err: false, status: 0 };
       } else {
         const update_cart = await this.updateCart(check.id, {
           amount: new_amountCart,
           sum_price: result,
         });
+        return { err: false, status: 1 };
       }
-      return { err: false, result, new_amountProduct };
     } catch (error) {
       return {
         err: true,

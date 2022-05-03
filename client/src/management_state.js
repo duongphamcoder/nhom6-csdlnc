@@ -117,8 +117,47 @@ function handleRegsiter(
       });
   }
 }
+
+//xử lý thêm vào giỏ hàng
+function handle_add_to_cart(user_id, product_id, one_pr_price, amount) {
+  axioisClient
+    .post("add-to-cart", {
+      user_id,
+      product_id,
+      one_pr_price,
+      amount,
+    })
+    .then((res) => {
+      const status = res.status;
+      const cart_id = document.querySelector(".cart_id");
+      if (status === 0) {
+        cart_id.innerHTML = +cart_id.textContent + 1;
+      }
+      Swal.fire({
+        icon: "success",
+        text: "Thêm thàng công....",
+        timer: 1000,
+      });
+    });
+}
+
+// lấy ra số lượng đơn hàng trong giỏ hàng
+function handle_get_size_cart(user_id) {
+  axioisClient
+    .get(`user/carts/${user_id}`)
+    .then((res) => {
+      const cart_id = document.querySelector(".cart_id");
+      cart_id.innerHTML = res.size;
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log("Co loix");
+    });
+}
 export default {
   handleClick,
   handleLogin,
   handleRegsiter,
+  handle_add_to_cart,
+  handle_get_size_cart,
 };

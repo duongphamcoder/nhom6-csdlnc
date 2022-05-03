@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+
+import { HandleContext } from "../index";
 
 import LoginPage from "./loginForm";
 import RegisterPage from "./registerForm";
@@ -8,6 +10,8 @@ import styles from "./index.module.scss";
 
 import logo from "./logo.png";
 export default function Header() {
+  const { handle_get_size_cart } = useContext(HandleContext);
+
   const [isloginPage, setIsLoginPage] = useState(true);
   // xử lý việc đóng mở form
   function handleOpenOrCloseForm(display) {
@@ -38,6 +42,14 @@ export default function Header() {
     open.addEventListener("click", () => {
       handleOpenOrCloseForm("block");
     });
+
+    /*
+      -- Lưu ý --
+        * nhớ cập nhật thêm điều kiện kiểm tra người đó đăng nhập hay chưa
+
+      xử lý thông báo số lượng sản phẩm trong giỏ
+    */
+    handle_get_size_cart("6256dded8924121b03a00ed6");
   }, []);
 
   console.log("re-render", isloginPage);
@@ -106,7 +118,9 @@ export default function Header() {
               <NavLink to="cart">
                 <ion-icon name="cart-outline"></ion-icon>
               </NavLink>
-              <div id={styles.amount}>0</div>
+              <div id={styles.amount} className="cart_id">
+                0
+              </div>
             </div>
           </div>
         </div>
