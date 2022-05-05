@@ -59,7 +59,7 @@ export const member_information = {
     {
       name: "Lê Viết Anh Khoa",
       image:
-        "https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/275064666_1877596625770463_8009510430129149205_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=wn3fpCn5VPUAX9IgXpC&_nc_ht=scontent.fsgn2-6.fna&oh=00_AT9fhUzn_SP048w0dwLJ3p0IB2bIfRAsnR6uA6aoTPfJdg&oe=6253D399",
+        "https://scontent.fdad3-6.fna.fbcdn.net/v/t39.30808-6/275064666_1877596625770463_8009510430129149205_n.jpg?_nc_cat=100&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=_ll6rEJzJ9kAX_WPtfy&tn=GNOu7XKDLxEFt8TS&_nc_ht=scontent.fdad3-6.fna&oh=00_AT-BBFoEgzsdSpvxuEyKANoZzHHATAOYQVulEzsgyICk4Q&oe=62776C19",
       email: "anhkhoa123@gmail.com",
       phoneNumber: "0123213210",
       information:
@@ -68,7 +68,7 @@ export const member_information = {
     {
       name: "Hồ Dương Tuyết Trinh",
       image:
-        "https://scontent.fsgn2-3.fna.fbcdn.net/v/t39.30808-6/203598487_2601973996771643_1557959798410895016_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=X_8rDFLhQbcAX_O4JCT&_nc_ht=scontent.fsgn2-3.fna&oh=00_AT968jBS0CSiVdp4_1JLaNHccdkx_29ftqzrUxz2fNR07g&oe=6253B207",
+        "https://scontent.fdad3-4.fna.fbcdn.net/v/t39.30808-6/278777900_2806029536366087_6440882739915512895_n.jpg?_nc_cat=107&ccb=1-5&_nc_sid=8bfeb9&_nc_ohc=cDzn-qS09jQAX9hyYB8&_nc_ht=scontent.fdad3-4.fna&oh=00_AT_dvInGW7_4gx-HdDQKhoouu4ulltdTQVqENu2eOIrGig&oe=6277C97E",
       email: "trinhtrinh153@gmail.com",
       phoneNumber: "0125653210",
       information:

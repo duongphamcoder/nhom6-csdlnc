@@ -12,6 +12,12 @@ import logo from "./logo.png";
 export default function Header() {
   const { handle_get_size_cart } = useContext(HandleContext);
 
+  const [isLogin, setIlogin] = useState(
+    Boolean(localStorage.getItem("isLogin"))
+  );
+  /* 
+    kiểm tra xem bạn đang ở trang đăng nhập hay đăng ký
+  */
   const [isloginPage, setIsLoginPage] = useState(true);
   // xử lý việc đóng mở form
   function handleOpenOrCloseForm(display) {
@@ -19,40 +25,42 @@ export default function Header() {
   }
 
   useEffect(() => {
-    const close_icon = document.querySelector(`#${styles.close_icon}`);
-    const overlay = document.querySelector(`#${styles.overlay}`);
-    const form_input = document.querySelector(`#${styles.form_input}`);
-    const btn_sub = document.querySelector(`#${styles.btn_sub}`);
-    //xử lý đóng form
-    close_icon.addEventListener("click", () => {
-      handleOpenOrCloseForm("none");
-    });
+    if (!isLogin) {
+      const close_icon = document.querySelector(`#${styles.close_icon}`);
+      const overlay = document.querySelector(`#${styles.overlay}`);
+      const form_input = document.querySelector(`#${styles.form_input}`);
+      const btn_sub = document.querySelector(`#${styles.btn_sub}`);
+      //xử lý đóng form
+      close_icon.addEventListener("click", () => {
+        handleOpenOrCloseForm("none");
+      });
 
-    overlay.addEventListener("click", (e) => {
-      handleOpenOrCloseForm("none");
-    });
+      overlay.addEventListener("click", (e) => {
+        handleOpenOrCloseForm("none");
+      });
 
-    //Ngăn chặn sự kiện click vào form
-    form_input.addEventListener("click", (e) => {
-      e.stopPropagation();
-    });
+      //Ngăn chặn sự kiện click vào form
+      form_input.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
 
-    // mở form
-    const open = document.querySelector(`#${styles.form}`);
-    open.addEventListener("click", () => {
-      handleOpenOrCloseForm("block");
-    });
-
-    /*
+      // mở form
+      const open = document.querySelector(`#${styles.form}`);
+      open.addEventListener("click", () => {
+        handleOpenOrCloseForm("block");
+      });
+    } else {
+      /*
       -- Lưu ý --
         * nhớ cập nhật thêm điều kiện kiểm tra người đó đăng nhập hay chưa
 
       xử lý thông báo số lượng sản phẩm trong giỏ
     */
-    handle_get_size_cart("6256dded8924121b03a00ed6");
+      handle_get_size_cart(localStorage.getItem("isLogin"));
+    }
   }, []);
 
-  console.log("re-render", isloginPage);
+  console.log("header re-render", isLogin);
   return (
     <>
       <div id={styles.header}>
@@ -88,7 +96,7 @@ export default function Header() {
             </li>
             <li className={styles.nav_bar_item}>
               <NavLink
-                to="san-pham"
+                to="san-pham/nike"
                 className={({ isActive }) =>
                   isActive ? `${styles.active}` : ""
                 }
@@ -110,9 +118,15 @@ export default function Header() {
 
           <div id={styles.user}>
             <div id={styles.form}>
-              <span to="user">
-                <ion-icon name="person-outline"></ion-icon>
-              </span>
+              {!isLogin ? (
+                <span>
+                  <ion-icon name="person-outline"></ion-icon>
+                </span>
+              ) : (
+                <Link to="user/profile">
+                  <ion-icon name="person-outline"></ion-icon>
+                </Link>
+              )}
             </div>
             <div id={styles.cart}>
               <NavLink to="cart">

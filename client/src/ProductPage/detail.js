@@ -4,6 +4,9 @@ import { useSearchParams } from "react-router-dom";
 import axioisClient from "../axios";
 import { HandleContext } from "../index";
 
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
+
 import "./details.scss";
 
 export default function Datails() {
@@ -89,10 +92,14 @@ export default function Datails() {
               <span
                 onClick={() => {
                   if (amount === 0) {
-                    console.log("Chua nhap so luong");
+                    Swal.fire({
+                      icon: "error",
+                      text: "Vui lòng nhập số lượng....",
+                      timer: 1000,
+                    });
                   } else {
                     handle_add_to_cart(
-                      "6256dded8924121b03a00ed6",
+                      localStorage.getItem("isLogin"),
                       product._id,
                       product.price,
                       amount

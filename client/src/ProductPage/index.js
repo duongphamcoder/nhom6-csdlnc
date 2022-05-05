@@ -41,6 +41,16 @@ export default function Productpage() {
             >
               Adidas
             </NavLink>
+            <NavLink
+              to="puma"
+              className={({ isActive }) =>
+                isActive
+                  ? `${styles.active} ${styles.nav_bar_item}`
+                  : `${styles.nav_bar_item}`
+              }
+            >
+              Puma
+            </NavLink>
           </div>
         </div>
         <div id={styles.content_product}>

@@ -6,6 +6,11 @@ const BillController = require("../controller/BillController");
 const { cloudinary } = require("../cloudinary/index");
 
 function routes(app) {
+  //test dữ liệu
+  app.get("/test", (req, res) => {
+    console.log(req.headers);
+  });
+
   // render home
   app.get("/", async (req, res) => {
     const qr = await ProductController.getHome();
@@ -49,10 +54,25 @@ function routes(app) {
   });
 
   // thêm sản phẩm và giỏ
-  app.post("/add-to-cart", async (req, res) => {
-    const data = await CartController.add_to_cart(req);
-    return res.json(data);
-  });
+  app.post(
+    "/add-to-cart",
+    (req, res, next) => {
+      console.log(req.headers);
+      if (req.headers.isLogin !== "") {
+        return next();
+      } else {
+        console.log("Chua login");
+        return res.json({
+          err: true,
+          mess: "Vui lòng đăng nhập !!!",
+        });
+      }
+    },
+    async (req, res) => {
+      const data = await CartController.add_to_cart(req);
+      return res.json(data);
+    }
+  );
 
   // lấy ra những sản phẩm chưa thanh toán trong giỏ
   app.get("/user/carts/:slug", async (req, res) => {

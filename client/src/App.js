@@ -5,7 +5,7 @@ import Footer from "./Footer/index";
 
 export default function App() {
   return (
-    <div id="main">
+    <div id="main" style={{ padding: "0 0 100px" }}>
       <Header />
       <div
         id="content"

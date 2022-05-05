@@ -36,11 +36,12 @@ function handleLogin(username, password, role = "USER_ROLE", redirect = "/") {
             text: "Đăng nhập thành công...",
             timer: 1200,
           });
-          setTimeout(() => {
-            window.location.assign(`http://localhost:3000${redirect}`);
-          }, 1200);
         }
-        // console.log(res);
+        localStorage.setItem("isLogin", res.account._id);
+        setTimeout(() => {
+          window.location.assign(`http://localhost:3000${redirect}`);
+        }, 1200);
+        console.log(res);
       })
       .catch(() => {
         Swal.fire({
@@ -120,25 +121,37 @@ function handleRegsiter(
 
 //xử lý thêm vào giỏ hàng
 function handle_add_to_cart(user_id, product_id, one_pr_price, amount) {
-  axioisClient
-    .post("add-to-cart", {
-      user_id,
-      product_id,
-      one_pr_price,
-      amount,
-    })
-    .then((res) => {
-      const status = res.status;
-      const cart_id = document.querySelector(".cart_id");
-      if (status === 0) {
-        cart_id.innerHTML = +cart_id.textContent + 1;
-      }
-      Swal.fire({
-        icon: "success",
-        text: "Thêm thàng công....",
-        timer: 1000,
-      });
+  if (!Boolean(localStorage.getItem("isLogin"))) {
+    Swal.fire({
+      icon: "error",
+      text: "Vui lòng đăng nhập để tiếp tục....",
+      timer: 1000,
     });
+  } else {
+    axioisClient
+      .post("add-to-cart", {
+        user_id,
+        product_id,
+        one_pr_price,
+        amount,
+      })
+      .then((res) => {
+        if (!res.err) {
+          const status = res.status;
+          const cart_id = document.querySelector(".cart_id");
+          if (status === 0) {
+            cart_id.innerHTML = +cart_id.textContent + 1;
+          }
+          Swal.fire({
+            icon: "success",
+            text: "Thêm thàng công....",
+            timer: 1000,
+          });
+        } else {
+        }
+        console.log(res);
+      });
+  }
 }
 
 // lấy ra số lượng đơn hàng trong giỏ hàng
@@ -154,10 +167,16 @@ function handle_get_size_cart(user_id) {
       console.log("Co loix");
     });
 }
+
+function checkLogin() {
+  const isLogin = localStorage.getItem("isLogin");
+  return Boolean(isLogin);
+}
 export default {
   handleClick,
   handleLogin,
   handleRegsiter,
   handle_add_to_cart,
   handle_get_size_cart,
+  checkLogin,
 };

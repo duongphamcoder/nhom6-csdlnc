@@ -15,9 +15,11 @@ export default function LoginPage({ ischeck }) {
   // Xử lý click submit form
   useEffect(() => {
     const btn_sub = document.querySelector(`#${styles.btn_sub}`);
+    const redirect = window.location.pathname;
     btn_sub.onclick = () => {
-      handleLogin(username, password);
+      handleLogin(username, password, "USER_ROLE", redirect);
     };
+    console.log(redirect);
   }, [username, password]);
 
   //Xử lý nút chuyển sang login pages
