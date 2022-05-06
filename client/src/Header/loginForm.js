@@ -15,7 +15,7 @@ export default function LoginPage({ ischeck }) {
   // Xử lý click submit form
   useEffect(() => {
     const btn_sub = document.querySelector(`#${styles.btn_sub}`);
-    const redirect = window.location.pathname;
+    const redirect = window.location.href;
     btn_sub.onclick = () => {
       handleLogin(username, password, "USER_ROLE", redirect);
     };

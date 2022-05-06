@@ -39,7 +39,7 @@ function handleLogin(username, password, role = "USER_ROLE", redirect = "/") {
         }
         localStorage.setItem("isLogin", res.account._id);
         setTimeout(() => {
-          window.location.assign(`http://localhost:3000${redirect}`);
+          window.location.assign(`${redirect}`);
         }, 1200);
         console.log(res);
       })
@@ -168,6 +168,18 @@ function handle_get_size_cart(user_id) {
     });
 }
 
+// xử lý xóa đơn hàng khỏi giỏ hàng
+function handleDeleteProductFormCart(_id) {
+  axioisClient
+    .post("/cart/detete", { _id })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 function checkLogin() {
   const isLogin = localStorage.getItem("isLogin");
   return Boolean(isLogin);
@@ -179,4 +191,5 @@ export default {
   handle_add_to_cart,
   handle_get_size_cart,
   checkLogin,
+  handleDeleteProductFormCart,
 };

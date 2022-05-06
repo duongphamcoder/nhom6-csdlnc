@@ -122,6 +122,23 @@ class CartController {
   getAllCartByUserId(user_id) {
     return Cart.find({ user_id, status: 0 });
   }
+
+  // xóa sản phẩm ra khỏi giỏ hàng
+  deleteProductFromCart(_id) {
+    try {
+      return Cart.deleteOne({ _id }).then((data) => {
+        return {
+          err: false,
+          mess: "Xóa thành công",
+        };
+      });
+    } catch (error) {
+      return {
+        err: true,
+        mess: "Có lỗi xảy ra",
+      };
+    }
+  }
 }
 
 module.exports = new CartController();

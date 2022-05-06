@@ -104,12 +104,37 @@ function routes(app) {
     );
   });
 
+  app.post("/cart/detete", async (req, res) => {
+    const value = await CartController.deleteProductFromCart(req.body._id);
+    return res.json(value);
+  });
+
+  // lấy ra thông tin của người dùng
+  app.get("/user/profile", async (req, res) => {
+    try {
+      const account = await AccountController.getAccountById(
+        req.headers.islogin
+      );
+      console.log(account);
+      return res.json({
+        err: false,
+        data: account,
+      });
+    } catch (error) {
+      return res.json({
+        err: true,
+        data: {},
+      });
+    }
+  });
+
   // lấy ra những đơn hàng đã thanh toán của user
   app.get("/bill", async (req, res) => {
     const data = await BillController.getBillById(req.body.user_id);
     return res.json(data);
   });
 
+  // lấy ra tất cả profile user (quyền admin)
   app.get(
     "/admin/all-user",
     (req, res, next) => {

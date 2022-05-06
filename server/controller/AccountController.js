@@ -67,8 +67,14 @@ class AccountController {
     }
   }
 
+  // lấy ra thông tin tất cả tài khoản (trang admin)
   getAllAccount() {
     return Account.find({ role: "USER_ROLE" });
+  }
+
+  // lấy ra thông tin của người dùng theo id
+  getAccountById(id) {
+    return Account.findById(id);
   }
 }
 

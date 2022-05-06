@@ -46,6 +46,12 @@ export default function Header() {
 
       // mở form
       const open = document.querySelector(`#${styles.form}`);
+      const cart_icon_btn = document.querySelector("#cart_icon-btn");
+
+      cart_icon_btn.addEventListener("click", () => {
+        handleOpenOrCloseForm("block");
+      });
+
       open.addEventListener("click", () => {
         handleOpenOrCloseForm("block");
       });
@@ -129,12 +135,25 @@ export default function Header() {
               )}
             </div>
             <div id={styles.cart}>
-              <NavLink to="cart">
-                <ion-icon name="cart-outline"></ion-icon>
-              </NavLink>
-              <div id={styles.amount} className="cart_id">
-                0
-              </div>
+              {!isLogin ? (
+                <>
+                  <span id="cart_icon-btn">
+                    <ion-icon name="cart-outline"></ion-icon>
+                  </span>
+                  <div id={styles.amount} className="cart_id">
+                    0
+                  </div>
+                </>
+              ) : (
+                <>
+                  <NavLink to="cart">
+                    <ion-icon name="cart-outline"></ion-icon>
+                  </NavLink>
+                  <div id={styles.amount} className="cart_id">
+                    0
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
