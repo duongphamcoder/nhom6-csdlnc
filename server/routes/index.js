@@ -7,8 +7,8 @@ const { cloudinary } = require("../cloudinary/index");
 
 function routes(app) {
   //test dữ liệu
-  app.get("/test", (req, res) => {
-    console.log(req.headers);
+  app.post("/test", (req, res) => {
+    console.log(req.body);
   });
 
   // render home
@@ -93,9 +93,10 @@ function routes(app) {
   // chức năng thanh toán
   app.post("/user/payment", async (req, res) => {
     const order_list = JSON.parse(req.body.cart_list);
+    const user_id = req.headers.islogin;
     return res.json(
       await BillController.payment({
-        ...req.body,
+        user_id,
         order_list,
       })
     );

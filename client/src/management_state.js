@@ -180,6 +180,21 @@ function handleDeleteProductFormCart(_id) {
     });
 }
 
+// xử lý thanh toán
+function handlePayment(listIdCart) {
+  axioisClient
+    .post("/user/payment", {
+      cart_list: JSON.stringify(listIdCart),
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+// kiểm tra đăng nhập
 function checkLogin() {
   const isLogin = localStorage.getItem("isLogin");
   return Boolean(isLogin);
@@ -192,4 +207,5 @@ export default {
   handle_get_size_cart,
   checkLogin,
   handleDeleteProductFormCart,
+  handlePayment,
 };

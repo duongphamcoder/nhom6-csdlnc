@@ -1,4 +1,4 @@
-import { useState, useContext, useLayoutEffect } from "react";
+import { useState, useContext, useLayoutEffect, useRef } from "react";
 
 import "./css/index.scss";
 
@@ -7,7 +7,13 @@ import axioisClient from "../axios";
 
 import empty_cart from "./empty-cart.png";
 
+import Swal from "sweetalert2/dist/sweetalert2.js";
+import "sweetalert2/src/sweetalert2.scss";
+
 export default function Cart_Page() {
+  const [totalPayment, setTotalPayemt] = useState(0);
+  const [str_TotalPayment, setStrTtPayment] = useState("0");
+
   // lưu danh sách thông tin các sản phẩm trong giỏ
   const [listPayment, setListPayment] = useState([]);
 
@@ -16,8 +22,33 @@ export default function Cart_Page() {
 
   // lưu danh sách những sản phẩm cần thanh toán
   const [listIdPayment, setListIdPayment] = useState([]);
-  const { checkLogin, handleDeleteProductFormCart } = useContext(HandleContext);
 
+  const { checkLogin, handleDeleteProductFormCart, handlePayment } =
+    useContext(HandleContext);
+
+  const handleSums = (money) => {
+    const new_money = totalPayment + money;
+
+    let String_Money = "";
+    let String_Money_temp = "";
+    const temp = "" + new_money;
+
+    let count = 0;
+    for (let index = temp.length; index >= 0; index--) {
+      String_Money += temp.charAt(index);
+      if (count === 3) {
+        String_Money += ".";
+        count = 0;
+      }
+      count++;
+    }
+    for (let index = String_Money.length; index >= 0; index--) {
+      String_Money_temp += String_Money.charAt(index);
+    }
+
+    setTotalPayemt(new_money);
+    setStrTtPayment(String_Money_temp);
+  };
   useLayoutEffect(() => {
     if (!checkLogin()) {
       window.location.replace("http://localhost:3000");
@@ -25,7 +56,6 @@ export default function Cart_Page() {
       axioisClient
         .get(`user/carts/${localStorage.getItem("isLogin")}`)
         .then((res) => {
-          console.log(res.data);
           setListIdCart(res.data);
           const lists = res.data.map((item) => {
             return axioisClient.get(`/product-by-id/${item.product_id}`);
@@ -39,9 +69,7 @@ export default function Cart_Page() {
         });
     }
   }, []);
-  console.log("listIdPayment", listIdPayment);
-  console.log("listPayment", listPayment);
-  console.log("listIdCart", listIdCart);
+
   return (
     <>
       {checkLogin() ? (
@@ -90,10 +118,16 @@ export default function Cart_Page() {
                         onChange={() => {
                           setListIdPayment((prev) => {
                             if (listIdPayment.includes(listIdCart[index]._id)) {
+                              handleSums(
+                                -listIdCart[index].sum_price.replaceAll(".", "")
+                              );
                               return listIdPayment.filter(
                                 (item) => item !== listIdCart[index]._id
                               );
                             } else {
+                              handleSums(
+                                +listIdCart[index].sum_price.replaceAll(".", "")
+                              );
                               return [...prev, listIdCart[index]._id];
                             }
                           });
@@ -123,8 +157,8 @@ export default function Cart_Page() {
                     <span
                       className="cart_delete--btn"
                       onClick={() => {
-                        setListPayment((prev) => prev.splice(index, 1));
                         handleDeleteProductFormCart(listIdCart[index]._id);
+                        setListPayment((prev) => prev.splice(index, 1));
                       }}
                     >
                       <ion-icon name="trash"></ion-icon>
@@ -136,10 +170,24 @@ export default function Cart_Page() {
           </div>
           <div id="cart_payment">
             <div id="cart_total">
-              <span>Tổng tiền: 100$</span>
+              <span>Tổng tiền: {str_TotalPayment}đ</span>
             </div>
             <div id="cart_payment-btn">
-              <span>Thanh Toán</span>
+              <span
+                onClick={() => {
+                  if (listIdPayment.length === 0) {
+                    Swal.fire({
+                      icon: "error",
+                      text: "Vui lòng chọn sản phẩm để thanh toán....",
+                      timer: 1000,
+                    });
+                  } else {
+                    handlePayment(listIdPayment);
+                  }
+                }}
+              >
+                Thanh Toán
+              </span>
             </div>
           </div>
         </div>
