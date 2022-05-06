@@ -26,7 +26,9 @@ class ProductController {
   async getProductByClassify(classify, check1 = false) {
     const check = await this.checkClassify(classify);
     if (!check) {
-      const data = !check1 ? await Product.find({ classify }).limit(3) : await Product.find({ classify });
+      const data = !check1
+        ? await Product.find({ classify }).limit(3)
+        : await Product.find({ classify });
       return {
         err: false,
         data,
@@ -40,11 +42,13 @@ class ProductController {
 
   // lấy dữ liệu trang home
   async getHome(limit_product) {
+    // lấy ra tất những thương có trong database
     const arr = await Classify.find();
     const classifys = arr.map((item) => item.name);
-    const promises = classifys.map((item) =>
-      this.getProductByClassify(item)
-    );
+
+    // thực hiện gọi hàm để lấy ra những sản phẩm theo
+    // thương hiệu
+    const promises = classifys.map((item) => this.getProductByClassify(item));
     return Promise.all(promises);
   }
 }

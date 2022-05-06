@@ -92,10 +92,7 @@ function routes(app) {
 
   // chức năng thanh toán
   app.post("/user/payment", async (req, res) => {
-    const order_list = JSON.stringify([
-      "625ed7337095a55fef2ddcfd",
-      "625ed70e7095a55fef2ddcf8",
-    ]);
+    const order_list = JSON.parse(req.body.cart_list);
     return res.json(
       await BillController.payment({
         ...req.body,
@@ -181,7 +178,6 @@ function routes(app) {
   });
 
   // lấy ra tất cả các sản phẩm(chưa xong -> chỉ mới lấy ra được ảnh)
-
   app.get("/profile", async (req, res) => {
     const { resources } = await cloudinary.v2.search
       .expression("folder:duong")
@@ -190,6 +186,41 @@ function routes(app) {
       .execute();
 
     res.json(resources);
+  });
+
+  // cập nhật thông tin của sản phẩm theo id
+  app.post("/admin/update-product", async (req, res) => {
+    try {
+      let Obj = req.body;
+      const { product_id, ...temp } = Obj;
+      await ProductController.updateProduct(product_id, temp);
+      return res.json({
+        err: false,
+        mess: "Cập nhật thành công...",
+      });
+    } catch (error) {
+      return res.json({
+        err: true,
+        mess: "Có lỗi trong quá trình cập nhật",
+      });
+    }
+  });
+
+  // cập nhật thông tin user
+  app.post("/admin/update-user", async (req, res) => {
+    try {
+      const { user_id, ...temp } = req.body;
+      await AccountController.updateAccountById(user_id, temp);
+      return res.json({
+        err: false,
+        mess: "Cập nhật thành công...",
+      });
+    } catch (error) {
+      return res.json({
+        err: true,
+        mess: "Có lỗi trong quá trình cập nhật",
+      });
+    }
   });
 }
 

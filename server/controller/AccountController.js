@@ -4,6 +4,10 @@ const saltRounds = 10;
 const Account = require("../models/account");
 
 class AccountController {
+  updateAccountById(id, Obj) {
+    return Account.updateOne({ _id: id }, { ...Obj });
+  }
+
   // chức năng đăng nhập(user)
   async handle_login(req, res) {
     try {

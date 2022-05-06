@@ -4,13 +4,13 @@
 ** Lưu ý **
  - chức năng lấy ra danh sách user có sử dụng midleware
 ***********
-- chức năng đăng nhập / đăng ký -> xong
-- Thêm sản phẩm vào giỏ -> xong
-- Thanh toán -> xong
-- render những sản phẩm chưa thanh toán của user -> xong
-- Lấy ra những sản phẩm đã mua -> xong 
-- Lấy ra danh sách user -> xong
-- thêm sản phẩm mới (admin)
-- cập nhật lại các thông tin sản phẩm(admin)
-- Cập nhật lại thông tin user(admin / user)
-- Cấu hình theo mô hình MVC
+1. chức năng đăng nhập / đăng ký -> xong
+2. Thêm sản phẩm vào giỏ -> xong
+3. Thanh toán -> xong -> khó -> chưa làm trên giao diện
+4. render những sản phẩm chưa thanh toán của user -> xong
+5. Lấy ra những sản phẩm đã mua -> xong 
+6. Lấy ra danh sách user -> xong
+7. thêm sản phẩm mới (admin) -> khó -> chưa xong
+8. cập nhật lại các thông tin sản phẩm(admin) -> xong
+9. Cập nhật lại thông tin user(admin / user)
+10. Cấu hình theo mô hình MVC

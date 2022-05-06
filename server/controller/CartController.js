@@ -76,8 +76,10 @@ class CartController {
           số lượng còn  - số lượng mua
       */
       const new_amountProduct = +product.amount - +req.body.amount;
+
       const result = this.convert_money(req.body.one_pr_price, new_amountCart);
 
+      // cập nhật lại số lượng sản phẩm trong kho
       const update = await ProductController.updateProduct(
         req.body.product_id,
         {
