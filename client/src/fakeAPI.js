@@ -40,7 +40,7 @@ export const member_information = {
     {
       name: "Trần Công Lai",
       image:
-        "https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.15752-9/277691525_1354712485047194_2481643963869252231_n.jpg?_nc_cat=105&ccb=1-5&_nc_sid=ae9488&_nc_ohc=tNkY9kFf5FMAX-HbJsf&_nc_ht=scontent.fsgn2-1.fna&oh=03_AVIOkkUoerRAGjvnby8HaECQ34d7cMJU5ebXj8mHxT15AA&oe=627377FC",
+        "https://scontent.fhan2-4.fna.fbcdn.net/v/t1.15752-9/277691525_1354712485047194_2481643963869252231_n.jpg?_nc_cat=105&ccb=1-6&_nc_sid=ae9488&_nc_ohc=yHf4GuSVyUwAX84Yf1w&_nc_ht=scontent.fhan2-4.fna&oh=03_AVI3DjLeqeycAeAUIGfonGAUv_CTaZSsQ9NdJNggzpcQsA&oe=629B04FC",
       phoneNumber: "0773692290",
       email: "conglai@gmail.com",
       information:
@@ -50,7 +50,7 @@ export const member_information = {
     {
       name: "Phạm Tấn Dương",
       image:
-        "https://scontent.fsgn2-3.fna.fbcdn.net/v/t1.6435-9/160067506_914515852631124_205981176723573427_n.jpg?_nc_cat=108&ccb=1-5&_nc_sid=174925&_nc_ohc=OwFC9BU-p-0AX_dHfjJ&_nc_ht=scontent.fsgn2-3.fna&oh=00_AT_ZVUx6t0Qpopx05V9zEF8lrRmYDlo4Wi9VWONMBgo6MQ&oe=6272BA52",
+        "https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-6/259406639_1075010226581685_4519000461271195655_n.jpg?_nc_cat=104&ccb=1-6&_nc_sid=174925&_nc_ohc=zHzTvBIOoDIAX8W3YX0&_nc_ht=scontent.fhan2-4.fna&oh=00_AT-kSJ2McVApjLdNfUOtTCyoyudoTx7qqwffmHNcRrpDDg&oe=627A6AB5",
       email: "phamtanduongtk29@gmail.com",
       phoneNumber: "0399388142",
       information:
@@ -77,7 +77,7 @@ export const member_information = {
     {
       name: "Lê Văn Long ",
       image:
-        "https://scontent.fsgn2-6.fna.fbcdn.net/v/t1.15752-9/277589979_1420313501724451_5317394823436037809_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=ae9488&_nc_ohc=2Lb-LWFk0aQAX_R3StK&_nc_ht=scontent.fsgn2-6.fna&oh=03_AVL6ESbOTWU1myRX0XoedfJfpWo7013-2Kvxwjy-f5m-Vg&oe=6274704E",
+        "https://scontent.fhan2-2.fna.fbcdn.net/v/t1.15752-9/277589979_1420313501724451_5317394823436037809_n.jpg?_nc_cat=110&ccb=1-6&_nc_sid=ae9488&_nc_ohc=ALdlRO8-ttgAX8p70oe&_nc_ht=scontent.fhan2-2.fna&oh=03_AVLor_4Bh2BXdfp9AMUz8VCdV93fyFQ6RQe6vjqystqwCw&oe=629BFD4E",
       email: "longle572@gmail.com",
       phoneNumber: "0121093210",
       information:
@@ -86,7 +86,7 @@ export const member_information = {
     {
       name: "Nguyễn hoàng thanh bình",
       image:
-        "https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.15752-9/277682266_774352550557991_2603950962913441631_n.jpg?_nc_cat=111&ccb=1-5&_nc_sid=ae9488&_nc_ohc=0THL5ryoyZAAX82C7N_&_nc_ht=scontent.fsgn2-1.fna&oh=03_AVJihUxJolQTIkdq0BvqC969TIFUkGzPlNkO-P2WR4vEoQ&oe=6275703D",
+        "https://scontent.fhan2-2.fna.fbcdn.net/v/t1.15752-9/277682266_774352550557991_2603950962913441631_n.jpg?_nc_cat=111&ccb=1-6&_nc_sid=ae9488&_nc_ohc=1m1PYh_rdssAX_acpvF&tn=fqyGR0kHtclgRJNv&_nc_ht=scontent.fhan2-2.fna&oh=03_AVI_swKB-PHjv6xrFUfxNKbxwGPrePur51nrcPdQUu-OKQ&oe=629CFD3D",
       email: "nhthanhbonh@gmail.com",
       phoneNumber: "01267213210",
       information:
