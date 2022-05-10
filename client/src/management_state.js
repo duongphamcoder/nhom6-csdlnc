@@ -27,7 +27,7 @@ function handleLogin(username, password, role = "USER_ROLE", redirect = "/") {
         if (res.err) {
           Swal.fire({
             icon: "error",
-            text: "Tài khoản hoặc mật khẩu không đúng....",
+            text: res.mess,
             timer: 1200,
           });
         } else {
@@ -36,11 +36,13 @@ function handleLogin(username, password, role = "USER_ROLE", redirect = "/") {
             text: "Đăng nhập thành công...",
             timer: 1200,
           });
+          localStorage.setItem("isLogin", res.account._id);
+          localStorage.setItem("roleLogin", res.account.role);
+          setTimeout(() => {
+            window.location.assign(`${redirect}`);
+          }, 1200);
         }
-        localStorage.setItem("isLogin", res.account._id);
-        setTimeout(() => {
-          window.location.assign(`${redirect}`);
-        }, 1200);
+
         console.log(res);
       })
       .catch(() => {
@@ -199,6 +201,21 @@ function checkLogin() {
   const isLogin = localStorage.getItem("isLogin");
   return Boolean(isLogin);
 }
+
+// xử lý đăng xuất
+function handleLogout(redirect) {
+  localStorage.removeItem("isLogin");
+  localStorage.removeItem("roleLogin");
+  Swal.fire({
+    icon: "success",
+    text: "Đăng xuất thành công...",
+    timer: 1000,
+  });
+
+  setTimeout(() => {
+    window.location.assign(`http://localhost:3000/${redirect}`);
+  }, 1000);
+}
 export default {
   handleClick,
   handleLogin,
@@ -208,4 +225,5 @@ export default {
   checkLogin,
   handleDeleteProductFormCart,
   handlePayment,
+  handleLogout,
 };

@@ -98,7 +98,10 @@ function AllProduct() {
                 </tr>
 
                 {all_product.map((item, index) => {
-                  if (index < entries) {
+                  if (
+                    index >= entries * indexPagin - entries &&
+                    index < entries * indexPagin
+                  ) {
                     return (
                       <>
                         <tr>

@@ -1,8 +1,11 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 
 import "./header.scss";
 
+import { HandleContext } from "../index.js";
+
 function Header() {
+  const { handleLogout } = useContext(HandleContext);
   console.log("Header admin re-render");
   return (
     <>
@@ -18,7 +21,14 @@ function Header() {
           <ul id="admin_header--control">
             <li className="admin_header--control-item">Cài đặt</li>
             <li className="admin_header--control-item">Hoạt động</li>
-            <li className="admin_header--control-item">Đăng xuất</li>
+            <li
+              className="admin_header--control-item"
+              onClick={() => {
+                handleLogout("admin/login");
+              }}
+            >
+              Đăng xuất
+            </li>
           </ul>
         </label>
       </div>

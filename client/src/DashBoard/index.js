@@ -3,9 +3,20 @@ import { Outlet } from "react-router-dom";
 import Header from "./header";
 import Dashboard from "./HomeDashboard";
 import Navbar from "./navbar";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export default function AdminPage() {
+  const [isLogin, setIsLogin] = useState(
+    Boolean(localStorage.getItem("roleLogin") === "ADMIN_ROLE")
+  );
+  useLayoutEffect(() => {
+    if (localStorage.getItem("roleLogin") != "ADMIN_ROLE") {
+      localStorage.removeItem("isLogin");
+      localStorage.removeItem("roleLogin");
+      window.location.assign("http://localhost:3000/admin/login");
+    }
+  }, []);
+
   useEffect(() => {
     const admin_header_bar = document.querySelector("#admin_header--bar");
     const admin_bar = document.querySelector("#admin_navbar");
@@ -26,11 +37,15 @@ export default function AdminPage() {
   console.log("Admin pages re-render");
   return (
     <>
-      <Header></Header>
-      <Navbar></Navbar>
-      <div id="admin_content">
-        <Outlet></Outlet>
-      </div>
+      {isLogin && (
+        <>
+          <Header></Header>
+          <Navbar></Navbar>
+          <div id="admin_content">
+            <Outlet></Outlet>
+          </div>
+        </>
+      )}
     </>
   );
 }

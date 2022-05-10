@@ -11,16 +11,26 @@ class AccountController {
   // chức năng đăng nhập(user)
   async handle_login(req, res) {
     try {
-      const account = await Account.findOne({ username: req.body.username });
+      const account = await Account.findOne({
+        username: req.body.username,
+        role: req.body.role,
+      });
       if (Boolean(account)) {
         const compare = await bcrypt.compare(
           req.body.password,
           account.password
         );
+        if (compare) {
+          return res.json({
+            err: false,
+            account,
+            mess: "Login successfully !!",
+          });
+        }
         return res.json({
-          err: false,
+          err: true,
           account,
-          mess: "Login successfully !!",
+          mess: "Password Incorrect !!",
         });
       }
       return res.json({

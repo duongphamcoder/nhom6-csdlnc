@@ -7,12 +7,9 @@ import "./index.scss";
 
 import Profile from "./profile";
 
-import Swal from "sweetalert2/dist/sweetalert2.js";
-import "sweetalert2/src/sweetalert2.scss";
-
 import { HandleContext } from "../index";
 export default function UserProfile() {
-  const { checkLogin } = useContext(HandleContext);
+  const { checkLogin, handleLogout } = useContext(HandleContext);
   const [profileUser, setProfileUser] = useState({});
 
   useLayoutEffect(() => {
@@ -26,18 +23,6 @@ export default function UserProfile() {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("isLogin");
-    Swal.fire({
-      icon: "success",
-      text: "Đăng xuất thành công...",
-      timer: 1000,
-    });
-
-    setTimeout(() => {
-      window.location.replace("http://localhost:3000");
-    }, 1010);
-  };
   return (
     <>
       <div id="user_profile--main">
@@ -46,7 +31,12 @@ export default function UserProfile() {
             <ion-icon name="document"></ion-icon>
             <span>Thông tin</span>
           </NavLink>
-          <div className="user_profile--nav-item" onClick={handleLogout}>
+          <div
+            className="user_profile--nav-item"
+            onClick={() => {
+              handleLogout("");
+            }}
+          >
             <ion-icon name="log-out"></ion-icon>
             <span>Đăng xuất</span>
           </div>
