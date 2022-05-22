@@ -182,6 +182,61 @@ function handleDeleteProductFormCart(_id) {
     });
 }
 
+// xử lý thêm sản phẩm ở trang Admin
+function addProductByAdmin(obj) {
+  if (
+    !Boolean(obj.product_name) ||
+    !Boolean(obj.product_price) ||
+    !Boolean(obj.product_amount) ||
+    !Boolean(obj.product_origin) ||
+    !Boolean(obj.product_classNameify) ||
+    !Boolean(obj.product_desc) ||
+    !Boolean(obj.product_image)
+  ) {
+    Swal.fire({
+      icon: "error",
+      text: "Vui lòng nhập đủ thông tin sản phẩm",
+      timer: 1100,
+    });
+  } else if (
+    !Boolean(+obj.product_price.replaceAll(".", "")) ||
+    obj.product_price.charAt(obj.product_price.length - 4) != "."
+  ) {
+    Swal.fire({
+      icon: "error",
+      text: "Giá tiền không hợp lệ",
+      timer: 1100,
+    });
+  } else {
+    axioisClient
+      .post("/add-product", obj)
+      .then((res) => {
+        if (res.err) {
+          Swal.fire({
+            icon: "error",
+            text: "Không thể thêm sản phẩm",
+            timer: 1100,
+          });
+        } else {
+          Swal.fire({
+            icon: "success",
+            text: "Thêm thành công",
+            timer: 1100,
+          });
+        }
+      })
+      .catch((err) =>
+        Swal.fire({
+          icon: "error",
+          text: "Có lỗi trong quá trình xử lý",
+          timer: 1100,
+        })
+      );
+  }
+}
+
+function handleFile(file) {}
+
 // xử lý thanh toán
 function handlePayment(listIdCart) {
   axioisClient
@@ -216,6 +271,7 @@ function handleLogout(redirect) {
     window.location.assign(`http://localhost:3000/${redirect}`);
   }, 1000);
 }
+
 export default {
   handleClick,
   handleLogin,
@@ -226,4 +282,5 @@ export default {
   handleDeleteProductFormCart,
   handlePayment,
   handleLogout,
+  addProductByAdmin,
 };

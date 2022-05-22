@@ -51,6 +51,11 @@ class ProductController {
     const promises = classifys.map((item) => this.getProductByClassify(item));
     return Promise.all(promises);
   }
+
+  // lấy tất cả sản phẩm trong giỏ được sắp xếp theo thương hiệu
+  getAllProduct() {
+    return Product.find({}).sort({ classify: -1 });
+  }
 }
 
 module.exports = new ProductController();

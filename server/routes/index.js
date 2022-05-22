@@ -164,17 +164,16 @@ function routes(app) {
   );
 
   // thêm sản phẩm (chưa xong -> chỉ mới thêm được ảnh)
-  app.post("/profile", async (req, res) => {
+  app.post("/add-product", async (req, res) => {
     try {
-      const file = req.body.data;
-      const uploadRespone = await cloudinary.v2.uploader.upload(file, {
-        upload_preset: "duong",
+      console.log(req.body);
+      return res.json({
+        err: false,
       });
-      console.log(file);
-      console.log(uploadRespone);
-      res.json("Success");
     } catch (error) {
-      res.json("falid");
+      return res.json({
+        err: true,
+      });
     }
   });
 
@@ -187,6 +186,23 @@ function routes(app) {
       .execute();
 
     res.json(resources);
+  });
+
+  app.get("/admin/all-product", async (req, res) => {
+    try {
+      const data = await ProductController.getAllProduct();
+      return res.json({
+        err: false,
+        data,
+        mess: "Success !!!",
+      });
+    } catch (error) {
+      return res.json({
+        err: true,
+        data: [],
+        mess: "Hiện tại chưa thể xử lý !!!",
+      });
+    }
   });
 
   // cập nhật thông tin của sản phẩm theo id

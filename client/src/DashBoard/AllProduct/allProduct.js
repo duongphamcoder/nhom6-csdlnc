@@ -1,136 +1,143 @@
-import { memo, useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+
+import axiosClient from "../../axios";
 
 import "./index.scss";
 
-let all_product = [];
-
-for (let i = 0; i < 21; i++) {
-  all_product = [
-    ...all_product,
-    {
-      name: "tên sản phẩm q q q q q q q qq q q q q q q q  q q q",
-      price: `giá sản phẩm ${i + 1}`,
-      discount: "giảm giá (%)",
-      desc: "mô tả sản phẩm",
-      origin: "xuất xứ sản phẩm",
-    },
-  ];
-}
-
 function AllProduct() {
-  const [entries, setEntries] = useState(5);
-  const [pagination, setPagination] = useState(
-    all_product.length % entries === 0
-      ? parseInt(all_product.length / entries)
-      : parseInt(all_product.length / entries) + 1
-  );
-  const [indexPagin, setIndexPagin] = useState(1);
-  console.log("All product re-render");
+  const [listProduct, setListProduct] = useState();
+  const [indexPagination, setIndexPagination] = useState(1);
 
-  useEffect(() => {
-    const pagination_class = document.getElementById(
-      "admin_dashboard--table-item-pagination"
-    );
-    pagination_class.innerHTML = "";
-    for (let index = 0; index < pagination; index++) {
-      const element = document.createElement("button");
-      element.classList.add("admin_dashboard--table-pagination-btn");
-      if (index + 1 === indexPagin) {
-        element.classList.add("active");
-      }
-      element.innerText = `${index + 1}`;
-      element.addEventListener("click", () => {
-        setIndexPagin(index + 1);
+  // thực hiện call API
+  useLayoutEffect(() => {
+    axiosClient
+      .get("admin/all-product")
+      .then((res) => {
+        setListProduct({
+          data: res.data,
+          size: res.data.length,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      pagination_class.appendChild(element);
+  }, []);
+
+  // thực hiện việc tạo số lượng trang
+  useEffect(() => {
+    const paginationsEl = document.querySelector(
+      "#admin_allproduct--pagination"
+    );
+    if (paginationsEl) {
+      paginationsEl.innerHTML = "";
+      const paginationSize = Boolean(listProduct)
+        ? listProduct.size % 5 === 0
+          ? parseInt(listProduct.size / 5)
+          : parseInt(listProduct.size / 5 + 1)
+        : 0;
+      console.log(paginationSize);
+
+      for (let i = 0; i < paginationSize; i++) {
+        const button = document.createElement("button");
+        button.classList.add("admin_allproduct--pagination-item");
+        if (i === 0) {
+          button.classList.add("active");
+        }
+        button.textContent = `${i + 1}`;
+        button.addEventListener("click", (e) => {
+          const buttonActive = document.querySelector(
+            ".admin_allproduct--pagination-item.active"
+          );
+          buttonActive.classList.remove("active");
+          e.target.classList.add("active");
+          setIndexPagination(i + 1);
+        });
+        paginationsEl.appendChild(button);
+      }
     }
-  }, [entries, indexPagin, indexPagin]);
+  }, [listProduct]);
+
+  const handleDeatailProduct = (_id) => {
+    console.log(_id);
+  };
+
   return (
     <>
-      <div id="admin_dashboard--all-product">
-        <h1>Tất cả sản phẩm</h1>
-        <div id="admin_dashboard--table-product">
-          <div id="admin_dashboard--table-title">
-            <span>
-              <ion-icon name="list"></ion-icon> Bảng sản phẩm
-            </span>
+      {Boolean(listProduct) && (
+        <div id="admin_allproduct--wrapper">
+          <div id="admin_allproduct--head">
+            <h2>Tất cả sản phẩm</h2>
           </div>
-          <div id="admin_dashboard--table-item">
-            <div id="admin_dashboard--table-entries-per-page">
-              <label htmlFor="entries">Chọn số mục muốn xem: </label>
-              <select
-                name="entries"
-                id="entries"
-                onChange={(e) => {
-                  setEntries(+e.target.value);
-                  setPagination(
-                    all_product.length % +e.target.value === 0
-                      ? parseInt(all_product.length / +e.target.value)
-                      : parseInt(all_product.length / +e.target.value) + 1
-                  );
-
-                  // kiểm tra xem vị trí trang hiện tại có lớn hơn số trang hay không
-                  if (
-                    (all_product.length % +e.target.value === 0
-                      ? parseInt(all_product.length / +e.target.value)
-                      : parseInt(all_product.length / +e.target.value) + 1) <
-                    indexPagin
-                  ) {
-                    setIndexPagin(1);
-                  }
-                }}
-              >
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
-                <option value="20">20</option>
-              </select>
-            </div>
-            <div id="admin_dashboard--table-item-product">
+          <div id="admin_allproduct--content">
+            <div>
               <table>
-                <tr>
-                  <th>Tên sản phẩm</th>
-                  <th>Giá tiền</th>
-                  <th>Giảm giá %</th>
-                  <th>Mô tả</th>
-                  <th>Xuất xứ</th>
-                  <th></th>
-                </tr>
-
-                {all_product.map((item, index) => {
-                  if (
-                    index >= entries * indexPagin - entries &&
-                    index < entries * indexPagin
-                  ) {
-                    return (
-                      <>
-                        <tr>
-                          <td>
-                            <span>{item.name}</span>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Tên</th>
+                    <th>Mã sản phẩm</th>
+                    <th>Kho</th>
+                    <th>Giá</th>
+                    <th>Xuất xứ</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="admin_allproduct--listproduct">
+                  {listProduct.data.map((product, index) => {
+                    if (
+                      index >= indexPagination * 5 - 5 &&
+                      index < indexPagination * 5
+                    ) {
+                      return (
+                        <tr
+                          className="admin_allproduct--listproduct-item"
+                          key={product._id}
+                        >
+                          <td className="admin_allproduct--listproduct-item-img">
+                            <div
+                              className="admin__img"
+                              style={{
+                                backgroundImage: `url('${product.image}')`,
+                              }}
+                            ></div>
                           </td>
-                          <td>{item.price}</td>
-                          <td>{item.discount}</td>
-                          <td>{item.desc}</td>
-                          <td>{item.origin}</td>
-                          <td>
-                            <div className="admin_dashboard--table-edit-product">
-                              <button>Xóa</button>
-                              <button>Sửa</button>
-                            </div>
+                          <td className="admin_allproduct--listproduct-item-name">
+                            <span>{product.name}</span>
+                          </td>
+                          <td className="admin_allproduct--listproduct-item-id">
+                            <span>{product._id}</span>
+                          </td>
+                          <td className="admin_allproduct--listproduct-item-warehouse">
+                            <span>{product.amount}</span>
+                          </td>
+                          <td className="admin_allproduct--listproduct-item-price">
+                            <span>{product.price}đ</span>
+                          </td>
+                          <td className="admin_allproduct--listproduct-item-origin">
+                            <span>{product.origin}</span>
+                          </td>
+                          <td className="admin_allproduct--listproduct-item-btn">
+                            <button
+                              onClick={() => {
+                                handleDeatailProduct(product._id);
+                              }}
+                            >
+                              Chi Tiết
+                            </button>
                           </td>
                         </tr>
-                      </>
-                    );
-                  }
-                })}
+                      );
+                    }
+                  })}
+                </tbody>
               </table>
             </div>
-            <div id="admin_dashboard--table-item-pagination"></div>
+            <div id="admin_allproduct--pagination"></div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
 
-export default memo(AllProduct);
+export default AllProduct;
