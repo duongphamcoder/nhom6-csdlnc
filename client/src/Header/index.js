@@ -102,7 +102,7 @@ export default function Header() {
             </li>
             <li className={styles.nav_bar_item}>
               <NavLink
-                to="san-pham/nike"
+                to="san-pham"
                 className={({ isActive }) =>
                   isActive ? `${styles.active}` : ""
                 }

@@ -164,18 +164,7 @@ function routes(app) {
   );
 
   // thêm sản phẩm (chưa xong -> chỉ mới thêm được ảnh)
-  app.post("/add-product", async (req, res) => {
-    try {
-      console.log(req.body);
-      return res.json({
-        err: false,
-      });
-    } catch (error) {
-      return res.json({
-        err: true,
-      });
-    }
-  });
+  app.post("/add-product", ProductController.addProductByAdmin);
 
   // lấy ra tất cả các sản phẩm(chưa xong -> chỉ mới lấy ra được ảnh)
   app.get("/profile", async (req, res) => {
@@ -239,6 +228,9 @@ function routes(app) {
       });
     }
   });
+
+  // xóa sản phẩm trong admin
+  app.post("/admin/delete-product", ProductController.handleDeleteProduct);
 }
 
 module.exports = routes;

@@ -1,5 +1,8 @@
 const Product = require("../models/product");
 const Classify = require("../models/classify");
+const CartController = require("./CartController");
+
+const { cloudinary } = require("../cloudinary/index");
 
 class ProductController {
   //update lai một trường dữ liệu trong sản phẩm
@@ -55,6 +58,58 @@ class ProductController {
   // lấy tất cả sản phẩm trong giỏ được sắp xếp theo thương hiệu
   getAllProduct() {
     return Product.find({}).sort({ classify: -1 });
+  }
+
+  // thêm sản phẩm tại trang admin
+  async addProductByAdmin(req, res) {
+    try {
+      const value = await Product.findOne({ name: req.body.name });
+      if (Boolean(value)) {
+        return res.json({
+          err: true,
+          mess: "Sản phẩm đã tồn tại....",
+        });
+      } else {
+        const file = req.body.image;
+        const valueUploadCloudinary = await cloudinary.uploader.upload(file, {
+          upload_preset: "ml_default",
+        });
+        const data = {
+          ...req.body,
+          image: valueUploadCloudinary.url,
+        };
+        const newPorduct = new Product(data);
+        newPorduct.save();
+        console.log(data);
+        return res.json({
+          err: false,
+          mess: "Thêm thành công....",
+        });
+      }
+    } catch (error) {
+      return res.json({
+        err: false,
+        // mess:""
+      });
+    }
+  }
+
+  // xóa sản phẩm
+  async handleDeleteProduct(req, res) {
+    try {
+      const _id = req.body._id;
+      const data = await Product.deleteOne({ _id });
+      CartController.deleteProductFromCart(_id);
+      return res.json({
+        err: false,
+        mess: "Xóa thành công..",
+      });
+    } catch (error) {
+      return res.json({
+        err: true,
+        mess: "Có lỗi trong quá trình thực hiện..",
+      });
+    }
   }
 }
 

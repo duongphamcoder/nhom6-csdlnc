@@ -38,13 +38,13 @@ export default function AdminPage() {
   return (
     <>
       {isLogin && (
-        <>
+        <div className="admin_main">
           <Header></Header>
           <Navbar></Navbar>
-          <div id="admin_content">
+          <div id="admin_content" style={{ height: "100vh" }}>
             <Outlet></Outlet>
           </div>
-        </>
+        </div>
       )}
     </>
   );

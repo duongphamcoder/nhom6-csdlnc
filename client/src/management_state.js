@@ -185,13 +185,13 @@ function handleDeleteProductFormCart(_id) {
 // xử lý thêm sản phẩm ở trang Admin
 function addProductByAdmin(obj) {
   if (
-    !Boolean(obj.product_name) ||
-    !Boolean(obj.product_price) ||
-    !Boolean(obj.product_amount) ||
-    !Boolean(obj.product_origin) ||
-    !Boolean(obj.product_classNameify) ||
-    !Boolean(obj.product_desc) ||
-    !Boolean(obj.product_image)
+    !Boolean(obj.name) ||
+    !Boolean(obj.price) ||
+    !Boolean(obj.amount) ||
+    !Boolean(obj.origin) ||
+    !Boolean(obj.classify) ||
+    !Boolean(obj.desc) ||
+    !Boolean(obj.image)
   ) {
     Swal.fire({
       icon: "error",
@@ -199,8 +199,8 @@ function addProductByAdmin(obj) {
       timer: 1100,
     });
   } else if (
-    !Boolean(+obj.product_price.replaceAll(".", "")) ||
-    obj.product_price.charAt(obj.product_price.length - 4) != "."
+    !Boolean(+obj.price.replaceAll(".", "")) ||
+    obj.price.charAt(obj.price.length - 4) != "."
   ) {
     Swal.fire({
       icon: "error",
@@ -208,6 +208,7 @@ function addProductByAdmin(obj) {
       timer: 1100,
     });
   } else {
+    console.log(obj);
     axioisClient
       .post("/add-product", obj)
       .then((res) => {
@@ -272,6 +273,28 @@ function handleLogout(redirect) {
   }, 1000);
 }
 
+// xử lý xóa sản phẩm trang admin
+function handleDeleteProduct(_id) {
+  try {
+    axioisClient.post("/admin/delete-product", { _id }).then((res) => {
+      const icon = res.err ? "error" : "success";
+      Swal.fire({
+        icon: `${icon}`,
+        text: `${res.mess}`,
+        timer: 1100,
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 1200);
+    });
+  } catch (error) {}
+}
+
+// xử lý cập nhật thông tin sản phẩm trong admin
+function handleUpadatePrByAdmin(obj) {
+  console.log(obj);
+}
+
 export default {
   handleClick,
   handleLogin,
@@ -283,4 +306,6 @@ export default {
   handlePayment,
   handleLogout,
   addProductByAdmin,
+  handleDeleteProduct,
+  handleUpadatePrByAdmin,
 };
