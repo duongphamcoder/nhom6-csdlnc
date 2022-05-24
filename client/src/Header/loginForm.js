@@ -13,14 +13,14 @@ export default function LoginPage({ ischeck }) {
   const { handleClick, handleLogin } = useContext(HandleContext);
 
   // Xử lý click submit form
-  useEffect(() => {
-    const btn_sub = document.querySelector(`#${styles.btn_sub}`);
-    const redirect = window.location.href;
-    btn_sub.onclick = () => {
-      handleLogin(username, password, "USER_ROLE", redirect);
-    };
-    console.log(redirect);
-  }, [username, password]);
+  // useEffect(() => {
+  //   const btn_sub = document.querySelector(`#${styles.btn_sub}`);
+  //   const redirect = window.location.href;
+  //   btn_sub.onclick = () => {
+  //     handleLogin(username, password, "USER_ROLE", redirect);
+  //   };
+  //   console.log(redirect);
+  // }, [username, password]);
 
   //Xử lý nút chuyển sang login pages
   useEffect(() => {
@@ -63,7 +63,12 @@ export default function LoginPage({ ischeck }) {
               />
             </div>
           </div>
-          <div id={styles.btn_sub} onClick={() => console.log(123)}>
+          <div
+            id={styles.btn_sub}
+            onClick={() =>
+              handleLogin(username, password, "USER_ROLE", window.location.href)
+            }
+          >
             <span>Đăng nhập</span>
           </div>
           <div id={styles.forgot_password}>

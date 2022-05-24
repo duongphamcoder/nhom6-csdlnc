@@ -1,4 +1,5 @@
 const Cart = require("../models/cart");
+const Product = require("../models/product");
 
 const ProductController = require("./ProductController");
 
@@ -58,9 +59,7 @@ class CartController {
   async add_to_cart(req) {
     try {
       const check = await this.checkCart(req.body.product_id, req.body.user_id);
-      const product = await ProductController.getProductById(
-        req.body.product_id
-      );
+      const product = await Product.findOne({ _id: req.body.product_id });
 
       /* 
         - số lượng sản phẩm của sản phẩm đã tồn tại trong giỏ = 
@@ -70,7 +69,6 @@ class CartController {
           *      *
       */
       const new_amountCart = +check.current_amount + +req.body.amount;
-
       /* 
         tính lại số sản phẩm còn trong kho = 
           số lượng còn  - số lượng mua
@@ -80,8 +78,8 @@ class CartController {
       const result = this.convert_money(req.body.one_pr_price, new_amountCart);
 
       // cập nhật lại số lượng sản phẩm trong kho
-      const update = await ProductController.updateProduct(
-        req.body.product_id,
+      const update = await Product.updateOne(
+        { _id: req.body.product_id },
         {
           amount: new_amountProduct,
         }
@@ -114,6 +112,7 @@ class CartController {
         return { err: false, status: 1 };
       }
     } catch (error) {
+      console.log(error);
       return {
         err: true,
       };

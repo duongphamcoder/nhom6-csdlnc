@@ -6,13 +6,13 @@ const { cloudinary } = require("../cloudinary/index");
 
 class ProductController {
   //update lai một trường dữ liệu trong sản phẩm
-  updateProduct(id, Obj) {
-    return Product.updateOne({ _id: id }, { ...Obj });
+  async updateProduct(id, Obj) {
+    return await Product.updateOne({ _id: id }, { ...Obj });
   }
 
   //lấy ra sản phẩm theo id
-  getProductById(id) {
-    return Product.findById(id);
+  async getProductById(id) {
+    return await Product.findById(id);
   }
 
   // kiểm tra thương hiệu đó có tồn tại không

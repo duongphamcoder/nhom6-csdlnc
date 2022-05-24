@@ -63,6 +63,7 @@ class AccountController {
         const account = new Account({
           ...req.body,
           password: new_password,
+          role: "USER_ROLE",
         });
         account.save();
         return res.json({

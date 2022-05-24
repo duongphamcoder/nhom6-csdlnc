@@ -70,6 +70,7 @@ function routes(app) {
     },
     async (req, res) => {
       const data = await CartController.add_to_cart(req);
+      console.log(data);
       return res.json(data);
     }
   );
