@@ -32,7 +32,7 @@ export default function FeaturedProduct() {
                 <div className={styles.classify}>
                   <span>{item.data[0].classify}</span>
                 </div>
-                <div className="product_item">
+                <div className="product_item justify-center lg:justify-between">
                   {item.data.map((item2) => {
                     return (
                       <Link

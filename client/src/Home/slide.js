@@ -58,7 +58,7 @@ export default function Sliders() {
   });
   return (
     <>
-      <div id={styles.slider}>
+      <div id={styles.slider} className="hidden lg:block">
         <Slider {...setting}>
           <Link to="" className={styles.slide_item}>
             <img

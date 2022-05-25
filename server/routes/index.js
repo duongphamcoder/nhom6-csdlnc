@@ -5,10 +5,16 @@ const BillController = require("../controller/BillController");
 
 const { cloudinary } = require("../cloudinary/index");
 
+const Account = require("../models/account");
+
 function routes(app) {
   //test dữ liệu
-  app.post("/test", (req, res) => {
-    console.log(req.body);
+  app.get("/test/:slug", async (req, res) => {
+    try {
+      const id = req.params.slug;
+      const account = await Account.findById(id);
+      const _id = account._id;
+    } catch (error) {}
   });
 
   // render home
@@ -167,17 +173,18 @@ function routes(app) {
   // thêm sản phẩm (chưa xong -> chỉ mới thêm được ảnh)
   app.post("/add-product", ProductController.addProductByAdmin);
 
-  // lấy ra tất cả các sản phẩm(chưa xong -> chỉ mới lấy ra được ảnh)
-  app.get("/profile", async (req, res) => {
-    const { resources } = await cloudinary.v2.search
-      .expression("folder:duong")
-      .sort_by("public_id", "desc")
-      .max_results(30)
-      .execute();
+  // // lấy ra tất cả các sản phẩm(chưa xong -> chỉ mới lấy ra được ảnh)
+  // app.get("/profile", async (req, res) => {
+  //   const { resources } = await cloudinary.v2.search
+  //     .expression("folder:duong")
+  //     .sort_by("public_id", "desc")
+  //     .max_results(30)
+  //     .execute();
 
-    res.json(resources);
-  });
+  //   res.json(resources);
+  // });
 
+  // lấy ra tất cả sản phẩm trong admin
   app.get("/admin/all-product", async (req, res) => {
     try {
       const data = await ProductController.getAllProduct();
