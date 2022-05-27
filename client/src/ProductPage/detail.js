@@ -19,7 +19,7 @@ export default function Datails() {
     axioisClient
       .get(`product-by-id/${params.get("id")}`)
       .then((res) => {
-        console.log(+res.data.amount);
+        console.log(res.data);
         setProduct(res.data);
       })
       .catch((error) => {
@@ -32,6 +32,12 @@ export default function Datails() {
       const temp = parseInt(prev) + step;
       if (temp <= 0) {
         return 0;
+      } else if (temp > +product.amount) {
+        Swal.fire({
+          icon: "error",
+          text: "Vượt quá số lượng trong kho....",
+          timer: 1100,
+        });
       }
       return temp;
     });
@@ -96,15 +102,15 @@ export default function Datails() {
                   if (amount === 0) {
                     Swal.fire({
                       icon: "error",
-                      text: "Vui lòng nhập số lượng....",
-                      timer: 1000,
+                      text: "Vui lòng nhập số lượng",
+                      timer: 1100,
                     });
                   } else if (amount > +product.amount) {
-                    // Swal.fire({
-                    //   icon: "error",
-                    //   text: "Đã vượt quá số lượng trong kho....",
-                    //   timer: 1000,
-                    // });
+                    Swal.fire({
+                      icon: "error",
+                      text: "Vượt quá số lượng trong kho....",
+                      timer: 1100,
+                    });
                   } else {
                     handle_add_to_cart(
                       localStorage.getItem("isLogin"),

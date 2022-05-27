@@ -1,4 +1,7 @@
 import axioisClient from "./axios";
+import axios from "axios";
+
+import { Cloudinary } from "@cloudinary/url-gen";
 
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import "sweetalert2/src/sweetalert2.scss";
@@ -163,7 +166,6 @@ function handle_get_size_cart(user_id) {
     .then((res) => {
       const cart_id = document.querySelector(".cart_id");
       cart_id.innerHTML = res.size;
-      console.log(res);
     })
     .catch((error) => {
       console.log("Co loix");
@@ -183,7 +185,7 @@ function handleDeleteProductFormCart(_id) {
 }
 
 // xử lý thêm sản phẩm ở trang Admin
-function addProductByAdmin(obj) {
+async function addProductByAdmin(obj) {
   if (
     !Boolean(obj.name) ||
     !Boolean(obj.price) ||
@@ -209,30 +211,46 @@ function addProductByAdmin(obj) {
     });
   } else {
     console.log(obj);
-    axioisClient
-      .post("/add-product", obj)
-      .then((res) => {
-        if (res.err) {
-          Swal.fire({
-            icon: "error",
-            text: "Không thể thêm sản phẩm",
-            timer: 1100,
+    const formData = new FormData();
+    formData.append("file", obj.image);
+    formData.append("upload_preset", "ikplw4ix");
+    formData.append("api_key", "355975891631955");
+    formData.append("api_secret", "bF31cB70H4CAJ65_6q2RyP5Zjc8");
+    axios
+      .post("https://api.cloudinary.com/v1_1/dsqs1mruw/image/upload", formData)
+      .then((res) => res.data)
+      .then((data) => {
+        axioisClient
+          .post("/add-product", {
+            ...obj,
+            image: data.url,
+          })
+          .then((res) => {
+            if (res.err) {
+              Swal.fire({
+                icon: "error",
+                text: "Sản phẩm đã tồn tại...",
+                timer: 1100,
+              });
+            } else {
+              Swal.fire({
+                icon: "success",
+                text: "Thêm thành công...",
+                timer: 1100,
+              });
+            }
+          })
+          .catch((err) => {
+            Swal.fire({
+              icon: "error",
+              text: "Có lỗi trong quá trình xử lý...",
+              timer: 1100,
+            });
           });
-        } else {
-          Swal.fire({
-            icon: "success",
-            text: "Thêm thành công",
-            timer: 1100,
-          });
-        }
       })
-      .catch((err) =>
-        Swal.fire({
-          icon: "error",
-          text: "Có lỗi trong quá trình xử lý",
-          timer: 1100,
-        })
-      );
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 

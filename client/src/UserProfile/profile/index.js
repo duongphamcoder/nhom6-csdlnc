@@ -13,9 +13,7 @@ export default function Profile({ profileUser }) {
           ></div>
           <div id="profile_header--title">
             <span>
-              <span>
-                Xin Chào, <span>Khach Hang</span>
-              </span>
+              <span>Sáu Lục Six Xin Chào</span>
             </span>
           </div>
         </div>

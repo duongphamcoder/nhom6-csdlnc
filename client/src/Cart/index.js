@@ -23,8 +23,12 @@ export default function Cart_Page() {
   // lưu danh sách những sản phẩm cần thanh toán
   const [listIdPayment, setListIdPayment] = useState([]);
 
-  const { checkLogin, handleDeleteProductFormCart, handlePayment } =
-    useContext(HandleContext);
+  const {
+    checkLogin,
+    handleDeleteProductFormCart,
+    handlePayment,
+    handle_get_size_cart,
+  } = useContext(HandleContext);
 
   const handleSums = (money) => {
     const new_money = totalPayment + money;
@@ -156,9 +160,15 @@ export default function Cart_Page() {
                   <div className="c_2 cart--temp-cart">
                     <span
                       className="cart_delete--btn"
-                      onClick={() => {
+                      onClick={(e) => {
                         handleDeleteProductFormCart(listIdCart[index]._id);
-                        setListPayment((prev) => prev.splice(index, 1));
+                        handle_get_size_cart(localStorage.getItem("isLogin"));
+                        setListPayment((prev) =>
+                          prev.filter((item, indexx) => indexx != index)
+                        );
+                        setListIdCart((prev) =>
+                          prev.filter((item, indexx) => indexx != index)
+                        );
                       }}
                     >
                       <ion-icon name="trash"></ion-icon>

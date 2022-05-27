@@ -3,6 +3,8 @@ import { HandleContext } from "../../index";
 import "./index.scss";
 import uploadImage from "./upload.jpg";
 
+import axios, { Axios } from "axios";
+
 export default function AddProduct() {
   const { addProductByAdmin } = useContext(HandleContext);
   const [name, setProductName] = useState("");
@@ -18,17 +20,34 @@ export default function AddProduct() {
     const inputFile = document.querySelector("#product_image");
     const file_name = document.querySelector("#file_name");
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setProductImage(reader.result);
-    };
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onloadend = () => {
+    //   const image = reader.result;
+    //   console.log(image.length);
+    //   setProductImage(reader.result);
+    // };
+    setProductImage(file);
     const urlImageTemp = URL.createObjectURL(file);
     file_name.style.backgroundImage = `url('${urlImageTemp}')`;
   };
 
-  console.log("add-product re-render");
+  const handleChangePrice = (price) => {
+    var newPrice = price.replaceAll(".", "");
+    if (newPrice.length > 3) {
+      let index_dots = newPrice.length - 3;
+      while (index_dots > 0) {
+        let temp1 = newPrice.substring(0, index_dots);
+        let temp2 = newPrice.substring(index_dots);
+        newPrice = temp1 + "." + temp2;
+        index_dots -= 3;
+      }
+      return newPrice;
+    }
+    return price.replaceAll(".", "");
+  };
 
+  console.log("add-product re-render");
   return (
     <>
       <div id="add_product--main">
@@ -59,23 +78,8 @@ export default function AddProduct() {
                 value={price}
                 onChange={(e) => {
                   // sconsole.log(e.target.value);
-                  setProductPrice((prev) => {
-                    const temp = prev.replaceAll(".", "");
-                    if (
-                      temp.length % 3 == 0 &&
-                      temp.length != 0 &&
-                      e.target.value.length > prev.length &&
-                      prev.charAt(prev.length - 1) != "."
-                    ) {
-                      const newPrice =
-                        prev +
-                        "." +
-                        e.target.value.charAt(e.target.value.length - 1);
-                      console.log("chia het:", newPrice);
-                      return newPrice;
-                    }
-                    return e.target.value;
-                  });
+                  const value = handleChangePrice(e.target.value);
+                  setProductPrice(value);
                 }}
               />
             </div>
@@ -173,6 +177,20 @@ export default function AddProduct() {
                   desc,
                   image,
                 });
+
+                // const formData = new FormData();
+                // formData.append("file", image);
+                // formData.append("upload_preset", "ikplw4ix");
+                // formData.append("api_key", "355975891631955");
+                // formData.append("api_secret", "bF31cB70H4CAJ65_6q2RyP5Zjc8");
+                // axios
+                //   .post(
+                //     "https://api.cloudinary.com/v1_1/dsqs1mruw/image/upload",
+                //     formData
+                //   )
+                //   .then((res) => {
+                //     console.log(res.data);
+                //   });
               }}
             >
               Thêm Sản phẩm

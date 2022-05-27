@@ -70,13 +70,8 @@ class ProductController {
           mess: "Sản phẩm đã tồn tại....",
         });
       } else {
-        const file = req.body.image;
-        const valueUploadCloudinary = await cloudinary.uploader.upload(file, {
-          upload_preset: "ml_default",
-        });
         const data = {
           ...req.body,
-          image: valueUploadCloudinary.url,
         };
         const newPorduct = new Product(data);
         newPorduct.save();

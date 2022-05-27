@@ -28,7 +28,6 @@ const Product = new mongoose.Schema(
     },
     image: {
       type: String,
-      minlength: 150,
     },
     classify: {
       type: String,
