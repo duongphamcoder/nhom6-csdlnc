@@ -19,6 +19,7 @@ function Details({ data, handleClose }) {
   const [desc, setDesc] = useState(data.desc);
 
   const [image, setProductImage] = useState(data.image);
+  const [imageTemp, setProductImageTemp] = useState();
 
   const handleOnchangeImage = (e) => {
     const inputFile = document.querySelector("#product_image");
@@ -29,8 +30,7 @@ function Details({ data, handleClose }) {
     reader.onloadend = () => {
       setProductImage(reader.result);
     };
-    const urlImageTemp = URL.createObjectURL(file);
-    file_name.style.backgroundImage = `url('${urlImageTemp}')`;
+    setProductImageTemp(file);
   };
 
   console.log("Admin details-product re-render");
@@ -162,7 +162,7 @@ function Details({ data, handleClose }) {
                   amount,
                   desc,
                   origin: data.origin,
-                  image,
+                  image: imageTemp ? imageTemp : image,
                   classify: data.classify,
                   discount: data.discount,
                   _id: data._id,

@@ -211,45 +211,33 @@ async function addProductByAdmin(obj) {
     });
   } else {
     console.log(obj);
-    const formData = new FormData();
-    formData.append("file", obj.image);
-    formData.append("upload_preset", "ikplw4ix");
-    formData.append("api_key", "355975891631955");
-    formData.append("api_secret", "bF31cB70H4CAJ65_6q2RyP5Zjc8");
-    axios
-      .post("https://api.cloudinary.com/v1_1/dsqs1mruw/image/upload", formData)
-      .then((res) => res.data)
-      .then((data) => {
-        axioisClient
-          .post("/add-product", {
-            ...obj,
-            image: data.url,
-          })
-          .then((res) => {
-            if (res.err) {
-              Swal.fire({
-                icon: "error",
-                text: "Sản phẩm đã tồn tại...",
-                timer: 1100,
-              });
-            } else {
-              Swal.fire({
-                icon: "success",
-                text: "Thêm thành công...",
-                timer: 1100,
-              });
-            }
-          })
-          .catch((err) => {
-            Swal.fire({
-              icon: "error",
-              text: "Có lỗi trong quá trình xử lý...",
-              timer: 1100,
-            });
+    const data = await handleUploadCloudinary(obj.image);
+    axioisClient
+      .post("/add-product", {
+        ...obj,
+        image: data.url,
+      })
+      .then((res) => {
+        if (res.err) {
+          Swal.fire({
+            icon: "error",
+            text: "Sản phẩm đã tồn tại...",
+            timer: 1100,
           });
+        } else {
+          Swal.fire({
+            icon: "success",
+            text: "Thêm thành công...",
+            timer: 1100,
+          });
+        }
       })
       .catch((err) => {
-        console.log(err);
+        Swal.fire({
+          icon: "error",
+          text: "Có lỗi trong quá trình xử lý...",
+          timer: 1100,
+        });
       });
   }
 }
@@ -325,8 +313,60 @@ function handleDeleteProduct(_id) {
 }
 
 // xử lý cập nhật thông tin sản phẩm trong admin
-function handleUpadatePrByAdmin(obj) {
-  console.log(obj);
+async function handleUpadatePrByAdmin(obj) {
+  Swal.fire({
+    icon: "success",
+    text: `Vui lòng đợi...`,
+    timer: 1000,
+    showConfirmButton: false,
+  });
+
+  if (typeof obj.image != "string") {
+    var newImage = await handleUploadCloudinary(obj.image);
+  }
+  const newProduct = {
+    ...obj,
+    image: newImage ? newImage.url : obj.image,
+  };
+
+  axioisClient
+    .post("/admin/update-product", newProduct)
+    .then((res) => {
+      if (res.err) {
+        Swal.fire({
+          icon: "error",
+          text: `${res.mess}`,
+          timer: 1100,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          text: `${res.mess}`,
+          timer: 1100,
+        });
+
+        setTimeout(() => {
+          window.location.replace(window.location.href);
+        }, 1100);
+      }
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: "error",
+        text: `Có lỗi trong quá trình thực hiện`,
+      });
+    });
+}
+
+async function handleUploadCloudinary(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "ikplw4ix");
+  formData.append("api_key", "355975891631955");
+  formData.append("api_secret", "bF31cB70H4CAJ65_6q2RyP5Zjc8");
+  return axios
+    .post("https://api.cloudinary.com/v1_1/dsqs1mruw/image/upload", formData)
+    .then((res) => res.data);
 }
 
 export default {
@@ -342,4 +382,5 @@ export default {
   addProductByAdmin,
   handleDeleteProduct,
   handleUpadatePrByAdmin,
+  handleUploadCloudinary,
 };

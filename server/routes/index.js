@@ -173,17 +173,6 @@ function routes(app) {
   // thêm sản phẩm (chưa xong -> chỉ mới thêm được ảnh)
   app.post("/add-product", ProductController.addProductByAdmin);
 
-  // // lấy ra tất cả các sản phẩm(chưa xong -> chỉ mới lấy ra được ảnh)
-  // app.get("/profile", async (req, res) => {
-  //   const { resources } = await cloudinary.v2.search
-  //     .expression("folder:duong")
-  //     .sort_by("public_id", "desc")
-  //     .max_results(30)
-  //     .execute();
-
-  //   res.json(resources);
-  // });
-
   // lấy ra tất cả sản phẩm trong admin
   app.get("/admin/all-product", async (req, res) => {
     try {
@@ -206,8 +195,8 @@ function routes(app) {
   app.post("/admin/update-product", async (req, res) => {
     try {
       let Obj = req.body;
-      const { product_id, ...temp } = Obj;
-      await ProductController.updateProduct(product_id, temp);
+      const { _id, ...temp } = Obj;
+      await ProductController.updateProduct(_id, temp);
       return res.json({
         err: false,
         mess: "Cập nhật thành công...",
