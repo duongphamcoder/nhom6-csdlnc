@@ -245,7 +245,23 @@ function handlePayment(listIdCart) {
       cart_list: JSON.stringify(listIdCart),
     })
     .then((res) => {
-      console.log(res);
+      if (res.err) {
+        Swal.fire({
+          icon: "error",
+          text: "Thanh toán không thành công.... ",
+          timer: 1100,
+        });
+      } else {
+        Swal.fire({
+          icon: "success",
+          text: "Thanh toán thành công....",
+          timer: 1100,
+        });
+
+        setTimeout(() => {
+          window.location.replace(window.location.href);
+        }, 1100);
+      }
     })
     .catch((err) => {
       console.log(err);
