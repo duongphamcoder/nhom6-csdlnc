@@ -28,7 +28,7 @@ const Product = new mongoose.Schema(
     },
     image: {
       type: String,
-      maxlength: 200,
+      minlength: 150,
     },
     classify: {
       type: String,
