@@ -14,6 +14,7 @@ import Dashboard from "./DashBoard/HomeDashboard";
 import AllProduct from "./DashBoard/AllProduct/allProduct";
 import AddProduct from "./DashBoard/AddProduct/index";
 import LoginAdminPage from "./DashBoard/LoginInAdmin";
+import AllUser from "./DashBoard/AllUser";
 export default function Router() {
   return (
     <>
@@ -35,6 +36,7 @@ export default function Router() {
           <Route index element={<Dashboard></Dashboard>} />
           <Route path="all-product" element={<AllProduct></AllProduct>} />
           <Route path="add-product" element={<AddProduct></AddProduct>} />
+          <Route path="all-user" element={<AllUser></AllUser>} />
         </Route>
         <Route
           path="admin/login"

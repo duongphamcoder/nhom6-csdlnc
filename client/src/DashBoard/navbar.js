@@ -94,7 +94,7 @@ function Navbar() {
               dropDownAccount ? "active" : ""
             }`}
           >
-            <Link to="" className="admin_navbar_drop--item ">
+            <Link to="all-user" className="admin_navbar_drop--item ">
               <span>Tất cả tài khoản</span>
             </Link>
             <Link to="" className="admin_navbar_drop--item">
